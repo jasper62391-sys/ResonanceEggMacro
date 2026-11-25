@@ -25,17 +25,15 @@ jobs:
 
       - name: Extract project
         run: |
-          unzip -q ResonanceEggMacro_Project_Fixed.zip -d project
-          echo "압축 해제 완료"
-          find project -name settings.gradle.kts
+          mkdir project
+          unzip -q ResonanceEggMacro_Overlay_FullProject.zip -d project
 
       - name: Build APK
         run: |
           cd project
           SETTINGS=$(find . -name settings.gradle.kts -type f | head -n 1)
           if [ -z "$SETTINGS" ]; then
-            echo "settings.gradle.kts를 찾을 수 없습니다."
-            find . -maxdepth 5 -type f
+            echo "settings.gradle.kts not found"
             exit 1
           fi
           cd "$(dirname "$SETTINGS")"
