@@ -20,8 +20,8 @@ jobs:
       - name: Extract project
         run: |
           mkdir project
-          unzip -q ResonanceEggMacro-Project.zip -d project
-          find project -name settings.gradle.kts
+          unzip -q 
+          ResonanceEggMacro_Project.zip -d project
 
       - name: Build APK
         run: |
