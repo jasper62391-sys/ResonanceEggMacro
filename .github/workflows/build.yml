@@ -25,15 +25,25 @@ jobs:
 
       - name: Extract project
         run: |
+          mkdir project
           unzip -q ResonanceEggMacro_Project.zip -d project
+          echo "압축 해제 완료"
+          find project -name settings.gradle.kts
 
       - name: Build APK
         run: |
-          cd project/ResonanceEggMacro
+          cd project
+          SETTINGS=$(find . -name settings.gradle.kts -type f | head -n 1)
+          if [ -z "$SETTINGS" ]; then
+            echo "settings.gradle.kts를 찾을 수 없습니다."
+            find . -maxdepth 5 -type f
+            exit 1
+          fi
+          cd "$(dirname "$SETTINGS")"
           gradle assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: ResonanceEggMacro-APK
-          path: project/ResonanceEggMacro/app/build/outputs/apk/debug/*.apk
+          path: project/**/build/outputs/apk/debug/*.apk
