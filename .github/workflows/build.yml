@@ -18,28 +18,22 @@ jobs:
           distribution: temurin
           java-version: '17'
 
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.7'
+
       - name: Extract project
         run: |
-          mkdir project
           unzip -q ResonanceEggMacro_Project.zip -d project
-          echo "압축 해제 완료"
-          find project -name settings.gradle.kts
 
       - name: Build APK
         run: |
-          cd project
-          GRADLEW=$(find . -name gradlew -type f | head -n 1)
-          if [ -z "$GRADLEW" ]; then
-            echo "gradlew 파일을 찾을 수 없습니다."
-            find . -maxdepth 5 -type f
-            exit 1
-          fi
-          cd "$(dirname "$GRADLEW")"
-          chmod +x gradlew
-          ./gradlew assembleDebug
+          cd project/ResonanceEggMacro
+          gradle assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: ResonanceEggMacro-APK
-          path: project/**/build/outputs/apk/debug/*.apk
+          path: project/ResonanceEggMacro/app/build/outputs/apk/debug/*.apk
