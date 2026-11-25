@@ -26,7 +26,7 @@ jobs:
       - name: Extract project
         run: |
           mkdir project
-          unzip -q ResonanceEggMacro_Project.zip -d project
+          unzip -q ResonanceEggMacro_Project_Fixed.zip -d project
           echo "압축 해제 완료"
           find project -name settings.gradle.kts
 
